@@ -1,0 +1,38 @@
+name: Security Test - Safe Workflow
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  test-security:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Test Basic Execution
+        run: |
+          echo "=== Security Testing Workflow ==="
+          echo "Testing GitHub Actions security boundaries"
+          
+      - name: Environment Analysis
+        run: |
+          echo "Runner: $RUNNER_NAME"
+          echo "Workflow: $GITHUB_WORKFLOW"
+          echo "Actor: $GITHUB_ACTOR"
+          
+      - name: Token Permissions Test
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "Testing GITHUB_TOKEN permissions..."
+          curl -s -H "Authorization: Bearer $GITHUB_TOKEN" \
+               https://api.github.com/repos/$GITHUB_REPOSITORY | jq '.permissions'
+          
+      - name: Secret Access Test
+        run: |
+          echo "Testing if we can access workflow secrets..."
+          # Safe test - just checking structure, not exposing values
+          echo "Environment variables available"
