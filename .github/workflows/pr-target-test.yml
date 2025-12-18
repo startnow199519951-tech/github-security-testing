@@ -1,0 +1,30 @@
+name: PR Target Injection Test
+# Testing pull_request_target vulnerability (GHSL-2021-1032 pattern)
+
+on:
+  pull_request_target:
+    types: [opened, synchronize]
+
+jobs:
+  # POTENTIALLY VULNERABLE PATTERN - Testing if GitHub blocks this
+  test-injection:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout PR code
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      
+      - name: Test Untrusted Input (VULNERABLE PATTERN)
+        run: |
+          echo "Testing injection with PR title..."
+          echo "PR Title: ${{ github.event.pull_request.title }}"
+          # This pattern was vulnerable in GHSL-2021-1032
+          # If this executes arbitrary code from PR title, it's a finding
+          
+      - name: Safe Alternative (Best Practice)
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          echo "Safe method using environment variable"
+          echo "Title: $PR_TITLE"
