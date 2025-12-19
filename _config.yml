@@ -1,0 +1,12 @@
+
+title: Security Test
+theme: jekyll-theme-cayman
+plugins:
+  - jekyll-remote-theme # Allowed
+  - jekyll-malicious-plugin # Not Allowed - Should fail build safely
+  - jekyll-admin # Admin interface?
+kramdown:
+  input: GFM
+  hard_wrap: false
+  # Vulnerable config? (CVE-2020-14001 was fixed, but let's see if we can set arbitrary options)
+  auto_ids: true
