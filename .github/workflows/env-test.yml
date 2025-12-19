@@ -1,4 +1,3 @@
-
 name: Env Injection Test
 on:
   workflow_dispatch:
@@ -12,9 +11,11 @@ jobs:
   print-env:
     runs-on: ubuntu-latest
     steps:
-      - name: Print Env
-        run: env
-      - name: Check Context
-        run: echo "${{ toJson(env) }}"
       - name: Unsafe Echo
         run: echo "Input: ${{ github.event.inputs.target_env }}"
+      - name: ПROOF OF SUCCESS (Post-Check)
+        run: |
+          echo "Malicious Env Var: $PWNED"
+          if [[ "$PWNED" == "success" ]]; then
+            echo "[+] VUMNERABILITY CONFIRMED"
+          fi
