@@ -1,0 +1,8 @@
+{
+  "name": "github-security-testing",
+  "version": "1.0.0",
+  "description": "Security testing repository",
+  "dependencies": {
+    "startnow-internal-utils-v1": "^1.0.0"
+  }
+}
